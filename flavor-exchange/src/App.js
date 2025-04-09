@@ -4,6 +4,7 @@ import { Toolbar } from '@mui/material';
 import Navbar from './presentation/components/Navbar';
 import Homepg from './presentation/pages/Homepg';
 import RecipeDetail from './presentation/pages/RecipeDetail';
+import MyRecipe from './presentation/pages/MyRecipe';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Homepg />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
+          <Route path="/my-recipes" element={<MyRecipe />} />
         </Routes>
       </div>
     </Router>

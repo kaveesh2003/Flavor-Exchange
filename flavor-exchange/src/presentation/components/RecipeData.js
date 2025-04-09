@@ -20,7 +20,9 @@ const RecipeData = [
         'Add minced meat and cook.',
         'Mix in tomato sauce.',
         'Serve over spaghetti.'
-      ]
+      ],
+      createdBy: 1,
+      isFavorite: true
     },
     {
       id: 2,
@@ -43,7 +45,9 @@ const RecipeData = [
         'Stir in curry powder.',
         'Add coconut milk and simmer.',
         'Serve with rice.'
-      ]
+      ],
+      createdBy: 1,
+      isFavorite: true
     },
     {
       id: 3,
@@ -65,7 +69,9 @@ const RecipeData = [
         'Mix in a bowl.',
         'Drizzle with olive oil and lemon.',
         'Toss gently and serve.'
-      ]
+      ],
+      createdBy: 2,
+      isFavorite: true
     },
     {
         "id": 4,
@@ -92,7 +98,9 @@ const RecipeData = [
           "Add grilled chicken strips on top.",
           "Drizzle with olive oil and lemon juice, then season with salt and pepper.",
           "Toss gently and serve."
-        ]
+        ],
+        createdBy: 2,
+        isFavorite: false
       },
       {
         "id": 5,
@@ -116,7 +124,9 @@ const RecipeData = [
           "Drizzle with olive oil and balsamic vinegar.",
           "Season with salt and pepper.",
           "Serve immediately."
-        ]
+        ],
+        createdBy: 3,
+        isFavorite: false
       }      
   ];
   
