@@ -15,23 +15,36 @@ import RecipeData from './RecipeData';
 
 const RecipeGrid = () => {
   return (
-    <Grid container spacing={3} padding={3} justifyContent="center" alignItems="center">
+    <Grid container spacing={3} padding={3} justifyContent="center">
       {RecipeData.map((recipe) => (
-        <Grid item xs={12} sm={6} md={4} key={recipe.id}>
-          <Card>
+        <Grid item key={recipe.id}>
+          <Card
+            sx={{
+              width: 230,              // ✅ Fixed width
+              height: 420,             // ✅ Fixed height
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              '&:hover': {
+                transform: 'translateY(-6px)',
+                boxShadow: 6,
+              },
+            }}
+          >
             <CardMedia
               component="img"
-              height="200"
-              width="250"
+              height="180"
               image={recipe.image}
               alt={recipe.title}
+              sx={{ objectFit: 'cover' }}
             />
-            <CardContent>
+
+            <CardContent sx={{ flexGrow: 1 }}>
               <Typography variant="h6" gutterBottom>
                 {recipe.title}
               </Typography>
 
-              {/* ⭐ Rating Display */}
               <Box display="flex" alignItems="center" gap={1} mb={1}>
                 <Rating value={recipe.rating} precision={0.5} readOnly />
                 <Typography variant="body2" color="text.secondary">
@@ -44,7 +57,7 @@ const RecipeGrid = () => {
               </Typography>
             </CardContent>
 
-            <CardActions sx={{ justifyContent: 'center' }}>
+            <CardActions sx={{ justifyContent: 'center', paddingBottom: 2 }}>
               <Button
                 variant="contained"
                 color="primary"

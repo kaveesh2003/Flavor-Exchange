@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toolbar } from '@mui/material'; 
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-
 import theme from './presentation/components/theme'; 
 import Navbar from './presentation/components/Navbar';
 import Homepg from './presentation/pages/Homepg';

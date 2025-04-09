@@ -115,7 +115,7 @@ const Navbar = () => {
 
           {/* Profile Icon with Dropdown */}
           <IconButton onClick={handleOpenMenu} color="inherit" sx={{ p: 0 }}>
-            <Avatar sx={{ bgcolor: '#ff5722' }}>
+            <Avatar sx={{ bgcolor: '#e83f25' }}>
               <ProfileIcon />
             </Avatar>
           </IconButton>

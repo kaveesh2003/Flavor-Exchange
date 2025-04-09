@@ -1,9 +1,15 @@
+import img1 from '../assets/img1.jpg';
+import img2 from '../assets/img2.jpg';
+import img3 from '../assets/img3.jpeg';
+import img4 from '../assets/img4.jpg';
+import img5 from '../assets/img5.jpeg';
+
 const RecipeData = [
     {
       id: 1,
       title: 'Spaghetti Bolognese',
       description: 'A classic Italian pasta dish made with rich tomato meat sauce.',
-      image: 'https://source.unsplash.com/400x300/?spaghetti',
+      image: img1,
       cookTime: '30 mins',
       rating: 4.5,
       reviewCount: 23,
@@ -27,7 +33,7 @@ const RecipeData = [
       id: 2,
       title: 'Chicken Curry',
       description: 'A classic Italian pasta dish made with rich tomato meat sauce.',
-      image: 'https://source.unsplash.com/400x300/?chicken-curry',
+      image: img2,
       cookTime: '45 mins',
       rating: 4.3,
       reviewCount: 30,
@@ -51,7 +57,7 @@ const RecipeData = [
       id: 3,
       title: 'Avocado Salad',
       description: 'A classic Italian pasta dish made with rich tomato meat sauce.',
-      image: 'https://source.unsplash.com/400x300/?salad',
+      image: img3,
       cookTime: '15 mins',
       rating: 4.7,
       reviewCount: 25,
@@ -74,7 +80,7 @@ const RecipeData = [
         "id": 4,
         "title": "Grilled Chicken Salad",
         "description": "A healthy and refreshing salad with grilled chicken and a variety of vegetables.",
-        "image": "https://source.unsplash.com/400x300/?grilled-chicken-salad",
+        "image": img4,
         "cookTime": "20 mins",
         rating: 4.5,
         reviewCount: 23,
@@ -102,7 +108,7 @@ const RecipeData = [
         "id": 5,
         "title": "Caprese Salad",
         "description": "A classic Italian salad with fresh tomatoes, mozzarella, and basil, drizzled with balsamic vinegar.",
-        "image": "https://source.unsplash.com/400x300/?caprese-salad",
+        "image": img5,
         "cookTime": "10 mins",
         rating: 4.5,
         reviewCount: 23,
