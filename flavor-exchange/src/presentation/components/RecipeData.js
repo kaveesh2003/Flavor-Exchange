@@ -21,8 +21,7 @@ const RecipeData = [
         'Mix in tomato sauce.',
         'Serve over spaghetti.'
       ],
-      createdBy: 1,
-      isFavorite: true
+      createdBy: 1
     },
     {
       id: 2,
@@ -46,8 +45,7 @@ const RecipeData = [
         'Add coconut milk and simmer.',
         'Serve with rice.'
       ],
-      createdBy: 1,
-      isFavorite: true
+      createdBy: 1
     },
     {
       id: 3,
@@ -70,8 +68,7 @@ const RecipeData = [
         'Drizzle with olive oil and lemon.',
         'Toss gently and serve.'
       ],
-      createdBy: 2,
-      isFavorite: true
+      createdBy: 2
     },
     {
         "id": 4,
@@ -99,8 +96,7 @@ const RecipeData = [
           "Drizzle with olive oil and lemon juice, then season with salt and pepper.",
           "Toss gently and serve."
         ],
-        createdBy: 2,
-        isFavorite: false
+        createdBy: 2
       },
       {
         "id": 5,
@@ -125,8 +121,7 @@ const RecipeData = [
           "Season with salt and pepper.",
           "Serve immediately."
         ],
-        createdBy: 3,
-        isFavorite: false
+        createdBy: 3
       }      
   ];
   

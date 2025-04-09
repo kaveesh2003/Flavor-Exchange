@@ -13,7 +13,7 @@ import {
 import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
 
-const loggedInUserId = 1; // 👈 mock user ID
+const loggedInUserId = 1; 
 
 const MyRecipe = () => {
   const [myRecipes, setMyRecipes] = useState([]);

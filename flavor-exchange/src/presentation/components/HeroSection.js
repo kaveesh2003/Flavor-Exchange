@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import heroImg from '../assets/heroImg.jpg'; 
 
 const HeroSection = () => {
@@ -51,32 +51,18 @@ const HeroSection = () => {
           Explore
         </Typography>
         <Typography
-          variant="h2"
-          component="h2"
+          variant="h4"
+          component="h4"
           sx={{
             fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
             fontWeight: 400,
             mb: 4,
-            fontStyle: 'italic',
+            
           }}
         >
           Culinary Insights
         </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            px: 4,
-            py: 2,
-            fontSize: '1.1rem',
-            backgroundColor: 'primary.main',
-            '&:hover': {
-              backgroundColor: 'primary.dark',
-            },
-          }}
-        >
-          Discover More
-        </Button>
+
       </Box>
     </Box>
   );

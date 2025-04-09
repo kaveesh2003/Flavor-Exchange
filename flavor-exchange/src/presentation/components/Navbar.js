@@ -1,44 +1,83 @@
-import React from 'react';
-import { AppBar, Toolbar, Button, InputAdornment, TextField, IconButton, Avatar, Box } from '@mui/material';
-import { Search as SearchIcon, AccountCircle as ProfileIcon } from '@mui/icons-material';
+import React, { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  InputAdornment,
+  TextField,
+  IconButton,
+  Avatar,
+  Box,
+  Menu,
+  MenuItem,
+} from '@mui/material';
+import {
+  Search as SearchIcon,
+  AccountCircle as ProfileIcon,
+} from '@mui/icons-material';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
+  const handleCloseMenu = () => setAnchorEl(null);
+
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white', boxShadow: 'none' }}>
+    <AppBar
+      position="fixed"
+      sx={{ backgroundColor: 'black', color: 'white', boxShadow: 'none' }}
+    >
       <Toolbar sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
         {/* Logo Image */}
-        <Box 
+        <Box
           component="img"
           src={logo}
           alt="Logo"
-          sx={{ 
-            height: 40, 
+          sx={{
+            height: 40,
             flexGrow: 1,
-            maxWidth: 150, 
-            objectFit: 'contain'
+            maxWidth: 150,
+            objectFit: 'contain',
           }}
         />
 
         {/* Navigation Links */}
-        <div style={{ display: 'flex', gap: '20px', marginRight: '20px', alignItems: 'center' }}>
-        <Button
-          color="inherit"
-          component="a"
-          href="/"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        <div
+          style={{
+            display: 'flex',
+            gap: '20px',
+            marginRight: '20px',
+            alignItems: 'center',
+          }}
         >
-          HOME
-        </Button>
-
-          <Button color="inherit" component={Link} to="/my-recipes">MY RECIPES</Button>
-          <Button color="inherit" component={Link} to="/favorites">FAVORITES</Button>
-          <Button color="inherit" component={Link} to="/add-new">ADD NEW</Button>
-          <Button color="inherit" component={Link} to="/contact">CONTACT</Button>
+          <Button
+            color="inherit"
+            component="a"
+            href="/"
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+          >
+            HOME
+          </Button>
+          <Button color="inherit" component={Link} to="/my-recipes">
+            MY RECIPES
+          </Button>
+          <Button color="inherit" component={Link} to="/favorites">
+            FAVORITES
+          </Button>
+          <Button color="inherit" component={Link} to="/add">
+            ADD NEW
+          </Button>
+          <Button color="inherit" component={Link} to="/contact">
+            CONTACT
+          </Button>
         </div>
 
-        {/* Search Bar and Profile Icon */}
+        {/* Search Bar and Profile Dropdown */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <TextField
             variant="outlined"
@@ -74,13 +113,27 @@ const Navbar = () => {
             }}
           />
 
-        {/* Profile Icon */}
-        
-          <IconButton color="inherit" sx={{ p: 0 }}>
+          {/* Profile Icon with Dropdown */}
+          <IconButton onClick={handleOpenMenu} color="inherit" sx={{ p: 0 }}>
             <Avatar sx={{ bgcolor: '#ff5722' }}>
               <ProfileIcon />
             </Avatar>
           </IconButton>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleCloseMenu}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <MenuItem component={Link} to="/login" onClick={handleCloseMenu}>
+              Login
+            </MenuItem>
+            <MenuItem component={Link} to="/signup" onClick={handleCloseMenu}>
+              Sign Up
+            </MenuItem>
+          </Menu>
         </div>
       </Toolbar>
     </AppBar>

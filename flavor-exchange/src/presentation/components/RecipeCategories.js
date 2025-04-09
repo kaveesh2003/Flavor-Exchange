@@ -12,7 +12,7 @@ function RecipeCategories() {
         padding: 3,
       }}
     >
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h4" gutterBottom >
         What to Cook ?
       </Typography>
       <Box
@@ -21,6 +21,8 @@ function RecipeCategories() {
           flexWrap: 'wrap',
           justifyContent: 'center',
           gap: 1,
+          fontStyle: 'inherit',
+          fontWeight: 700
         }}
       >
         <Button variant="contained" color="primary">
