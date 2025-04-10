@@ -23,6 +23,7 @@ import {
   AccountCircle as ProfileIcon,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
@@ -33,6 +34,7 @@ const Navbar = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const location = useLocation();
 
   const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
   const handleCloseMenu = () => setAnchorEl(null);
@@ -124,10 +126,20 @@ const Navbar = () => {
           // Desktop View
           <Box display="flex" alignItems="center" gap={2}>
             {navItems.map((item) => (
-              <Button key={item.text} color="inherit" component={Link} to={item.link}>
-                {item.text}
-              </Button>
-            ))}
+          <Button
+            key={item.text}
+            component={Link}
+            to={item.link}
+            sx={{
+              color: location.pathname === item.link ? '#fad800' : 'white',
+              fontWeight: location.pathname === item.link ? 'bold' : 'normal',
+              textTransform: 'uppercase',
+              }}
+          >
+          {item.text}
+          </Button>
+        ))}
+
 
             {/* Search Bar for Desktop */}
             <TextField

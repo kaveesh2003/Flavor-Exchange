@@ -10,6 +10,7 @@ import RecipeDetail from './presentation/pages/RecipeDetail';
 import MyRecipe from './presentation/pages/MyRecipe';
 import AddRecipe from './presentation/pages/AddRecipe';
 import EditRecipe from './presentation/pages/EditRecipe';
+import FavoritesPage from './presentation/pages/FavoritesPage';
 import Login from './presentation/pages/Login';
 import Signup from './presentation/pages/Signup';
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/my-recipes" element={<MyRecipe />} />
           <Route path='/add' element={<AddRecipe />} />
           <Route path="/edit/:id" element={<EditRecipe />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/login" element={<Login />} />
           <Route path='/signup' element={<Signup/>} />
         </Routes>
