@@ -235,7 +235,7 @@ const Signup = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}>
-          ✅ Account created! Redirecting to login...
+          Account created! Redirecting to login...
         </Alert>
       </Snackbar>
     </Box>

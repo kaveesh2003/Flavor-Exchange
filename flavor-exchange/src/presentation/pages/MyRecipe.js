@@ -28,7 +28,6 @@ const MyRecipe = () => {
     if (confirmDelete) {
       const updatedRecipes = myRecipes.filter((r) => r.id !== id);
       setMyRecipes(updatedRecipes);
-      // Optionally sync deletion to backend or localStorage
     }
   };
 

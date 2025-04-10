@@ -19,7 +19,7 @@ const HeroSection = () => {
         py: { xs: 6, sm: 8 },
       }}
     >
-      {/* Wrapper Box for Image Margin and Border Radius */}
+     
       <Box
         sx={{
           position: 'absolute',

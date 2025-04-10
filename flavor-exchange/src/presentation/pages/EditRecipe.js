@@ -48,7 +48,7 @@ const EditRecipe = () => {
 
       setMessage('Recipe updated successfully!');
 
-      // Optional: Save to backend/localStorage
+      //Save to backend/localStorage
       setTimeout(() => {
         setMessage('');
         navigate('/my-recipes');

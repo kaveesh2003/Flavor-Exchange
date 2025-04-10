@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import HeroSection from '../components/HeroSection';
 import RecipeCategories from '../components/RecipeCategories';
 import RecipeGrid from '../components/RecipeGrid';
-import RecipeData from '../components/RecipeData'; // Make sure this path is correct
+import RecipeData from '../components/RecipeData'; 
 
 const Homepg = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');

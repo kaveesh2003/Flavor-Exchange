@@ -6,10 +6,10 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#e83f25',         // Default (normal) color
-      light: '#f25d44',        // Hover color (lighter version)
-      dark: '#b2301b',         // Active color (darker version)
-      contrastText: '#ffffff'  // Text color on buttons (white text)
+      main: '#e83f25',        
+      light: '#f25d44',        
+      dark: '#b2301b',         
+      contrastText: '#ffffff'  
     }
   }
 });
