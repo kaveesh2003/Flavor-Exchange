@@ -1,48 +1,57 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import heroImg from '../assets/heroImg.jpg'; 
+import heroImg from '../assets/heroImg.jpg';
 
 const HeroSection = () => {
   return (
     <Box
       sx={{
         position: 'relative',
-        height: '50vh', 
-        width: '96%',
+        width: '100%',
+        height: { xs: '60vh', md: '75vh' }, // Responsive height
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: 'white',
         textAlign: 'center',
-        margin: '2rem',
-        borderRadius: '10px'
+        px: { xs: 2, sm: 4, md: 6 },
+        py: { xs: 6, sm: 8 },
       }}
     >
-      {/* Background Image */}
+      {/* Wrapper Box for Image Margin and Border Radius */}
       <Box
-        component="img"
-        src={heroImg}
-        alt="Culinary background"
         sx={{
           position: 'absolute',
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: -1,
-          filter: 'brightness(0.7)',
+          right: 0,  // Ensure the image spans full width
+          bottom: 0, // Ensure the image spans full height
+          m: { xs: 2, sm: 4, md: 6 }, // Apply margin to the wrapper
+          borderRadius: '16px', // Add border radius to the wrapper
+          overflow: 'hidden', // Ensure the border radius is applied properly
         }}
-      />
+      >
+        {/* Background Image */}
+        <Box
+          component="img"
+          src={heroImg}
+          alt="Culinary background"
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            filter: 'brightness(0.6)',
+          }}
+        />
+      </Box>
 
       {/* Text Overlay */}
-      <Box sx={{ maxWidth: '800px', px: 3 }}>
+      <Box sx={{ zIndex: 1, maxWidth: '800px' }}>
         <Typography
           variant="h1"
-          component="h1"
           sx={{
-            fontSize: { xs: '3rem', sm: '4rem', md: '5rem' },
+            fontSize: { xs: '2.5rem', sm: '3.5rem', md: '5rem' },
             fontWeight: 700,
             mb: 2,
             textTransform: 'uppercase',
@@ -52,17 +61,13 @@ const HeroSection = () => {
         </Typography>
         <Typography
           variant="h4"
-          component="h4"
           sx={{
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+            fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.5rem' },
             fontWeight: 400,
-            mb: 4,
-            
           }}
         >
           Culinary Insights
         </Typography>
-
       </Box>
     </Box>
   );
