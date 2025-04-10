@@ -8,7 +8,7 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         width: '100%',
-        height: { xs: '60vh', md: '75vh' }, // Responsive height
+        height: { xs: '60vh', md: '75vh' }, 
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -25,11 +25,11 @@ const HeroSection = () => {
           position: 'absolute',
           top: 0,
           left: 0,
-          right: 0,  // Ensure the image spans full width
-          bottom: 0, // Ensure the image spans full height
-          m: { xs: 2, sm: 4, md: 6 }, // Apply margin to the wrapper
-          borderRadius: '16px', // Add border radius to the wrapper
-          overflow: 'hidden', // Ensure the border radius is applied properly
+          right: 0,  
+          bottom: 0, 
+          m: { xs: 2, sm: 4, md: 6 }, 
+          borderRadius: '16px', 
+          overflow: 'hidden', 
         }}
       >
         {/* Background Image */}

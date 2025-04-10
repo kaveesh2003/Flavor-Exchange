@@ -7,21 +7,20 @@ import {
   Typography,
   CardActions,
   Button,
-  Box
+  Box,
 } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
-import RecipeData from './RecipeData';
 
-const RecipeGrid = () => {
+const RecipeGrid = ({ recipes }) => {
   return (
     <Grid container spacing={3} padding={3} justifyContent="center">
-      {RecipeData.map((recipe) => (
+      {recipes.map((recipe) => (
         <Grid item key={recipe.id}>
           <Card
             sx={{
-              width: 230,              // ✅ Fixed width
-              height: 420,             // ✅ Fixed height
+              width: 230,
+              height: 420,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
@@ -39,24 +38,20 @@ const RecipeGrid = () => {
               alt={recipe.title}
               sx={{ objectFit: 'cover' }}
             />
-
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography variant="h6" gutterBottom>
                 {recipe.title}
               </Typography>
-
               <Box display="flex" alignItems="center" gap={1} mb={1}>
                 <Rating value={recipe.rating} precision={0.5} readOnly />
                 <Typography variant="body2" color="text.secondary">
                   ({recipe.reviewCount})
                 </Typography>
               </Box>
-
               <Typography variant="body2" color="text.secondary">
                 Cook Time: {recipe.cookTime}
               </Typography>
             </CardContent>
-
             <CardActions sx={{ justifyContent: 'center', paddingBottom: 2 }}>
               <Button
                 variant="contained"
