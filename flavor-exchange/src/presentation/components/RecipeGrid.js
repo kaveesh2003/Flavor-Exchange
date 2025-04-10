@@ -79,12 +79,29 @@ const RecipeGrid = () => {
         <Grid container spacing={3} padding={3} justifyContent="center" alignItems="center">
           {filteredRecipes.map((recipe) => (
             <Grid item xs={12} sm={6} md={4} key={recipe.id}>
-              <Card>
+              <Card
+                sx={{
+                  width: '300px', 
+                  height: '100%', 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  margin: '0 auto',
+                  transition: 'transform 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
                 <CardMedia
                   component="img"
                   height="200"
                   image={recipe.image}
                   alt={recipe.title}
+                  sx={{
+                    width: '100%',        
+                    objectFit: 'cover',   
+                  }}
                 />
                 <CardContent>
                   <Typography variant="h6" gutterBottom>

@@ -150,22 +150,6 @@
       ],
       "createdBy": 3,
       "foodCategory": "Healthy Meals"
-    },
-    {
-      "id": "6",
-      "title": "Hoppers",
-      "description": "test",
-      "image": "https://www.jetwinghotels.com/islandinsider/wp-content/uploads/2017/09/23A8360.jpg",
-      "cookTime": "5",
-      "ingredients": [
-        "Flour",
-        "Salt"
-      ],
-      "steps": [
-        "Cook well"
-      ],
-      "createdBy": 1,
-      "foodCategory": "Main Meals"
     }
   ]
 }
