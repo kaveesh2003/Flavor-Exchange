@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import RecipeData from '../components/RecipeData';
+import { useRecipe } from '../../application/context/RecipeContext'; // Adjust path as needed
 import {
   Typography,
   Box,
@@ -14,11 +14,14 @@ import ShareIcon from '@mui/icons-material/Share';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const RecipeDetail = () => {
+  const { getRecipeById } = useRecipe();
   const { id } = useParams();
-  const recipe = RecipeData.find((item) => item.id === parseInt(id));
+  const [recipe, setRecipe] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const parseCookTimeToSeconds = (cookTime) => {
     const timePattern = /(?:(\d+)\s*hr)?\s*(?:(\d+)\s*min)?/i;
@@ -44,8 +47,27 @@ const RecipeDetail = () => {
   const stopTimer = () => {
     clearInterval(timerRef.current);
     setIsRunning(false);
-    setTimeLeft(parseCookTimeToSeconds(recipe.cookTime));
+    if (recipe) {
+      setTimeLeft(parseCookTimeToSeconds(recipe.cookTime));
+    }
   };
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const fetchedRecipe = await getRecipeById(id);
+        setRecipe(fetchedRecipe);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipe();
+  }, [id, getRecipeById]);
 
   useEffect(() => {
     if (recipe) {
@@ -77,7 +99,17 @@ const RecipeDetail = () => {
     alert("This would normally share the recipe!");
   };
 
-  if (!recipe) return <Typography>Recipe not found</Typography>;
+  if (loading) {
+    return <Typography>Loading recipe details...</Typography>;
+  }
+
+  if (error) {
+    return <Typography color="error">Error loading recipe: {error.message}</Typography>;
+  }
+
+  if (!recipe) {
+    return <Typography>Recipe not found</Typography>;
+  }
 
   return (
     <Box padding={4}>

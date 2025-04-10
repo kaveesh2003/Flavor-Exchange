@@ -23,11 +23,16 @@ import {
   AccountCircle as ProfileIcon,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { useAuth } from "../../application/context/AuthContext";
+import { useRecipe } from '../../application/context/RecipeContext'; 
 
 const Navbar = () => {
+  const { recipes, loading, error } = useRecipe();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { user, isLoggedIn, logout, setLocalData } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -39,6 +44,42 @@ const Navbar = () => {
   const handleOpenMenu = (event) => setAnchorEl(event.currentTarget);
   const handleCloseMenu = () => setAnchorEl(null);
   const toggleDrawer = (open) => () => setDrawerOpen(open);
+  const navigate = useNavigate();
+  const handleLogoutClick = () => {
+    logout();
+    navigate("/login");
+  }
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault(); 
+    if (searchTerm.trim()) {
+      var lowSearchTerm = searchTerm.toLowerCase();
+      // Check if the search term matches any recipe name (case-insensitive)
+      if (recipes && recipes.length > 0) {
+        const filteredRecipes = recipes.filter((recipe) => {
+           var recipeName = recipe?.title.toLowerCase(); 
+           if(recipeName) {
+             if (recipeName.toLowerCase().includes(lowSearchTerm)){
+              return true; 
+             }
+           }
+           return false; 
+        }
+
+      );
+      if (filteredRecipes.length > 0) {
+        navigate("/search", { state: { recipes: filteredRecipes } });
+      } else {
+        alert("No recipes found for your search term.");
+      }
+    }
+    setSearchTerm(""); // Clear search term after submission
+  }
+};
 
   const navItems = [
     { text: 'HOME', link: '/' },
@@ -142,14 +183,19 @@ const Navbar = () => {
 
 
             {/* Search Bar for Desktop */}
+            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+              <form onSubmit={handleSearchSubmit}>
+            
             <TextField
               variant="outlined"
               size="small"
-              placeholder="Search..."
+              placeholder="Search recipes..."
+              value={searchTerm}
+              onChange={handleSearchChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: 'white' }} />
+                    <SearchIcon sx={{ color: "white" }} />
                   </InputAdornment>
                 ),
               }}
@@ -175,7 +221,15 @@ const Navbar = () => {
                 },
               }}
             />
-
+            </form>
+            {/* Welocome Message */}
+            {isLoggedIn ? (
+              <div>
+                <p>Hi, {user?.name || "User"}</p>
+              </div>
+            ) : (
+              <p>Guest </p>
+            )}
             {/* Profile Icon & Menu */}
             <IconButton onClick={handleOpenMenu} color="inherit" sx={{ p: 0 }}>
               <Avatar sx={{ bgcolor: '#e83f25' }}>
@@ -190,13 +244,23 @@ const Navbar = () => {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <MenuItem component={Link} to="/login" onClick={handleCloseMenu}>
+             
+             {!isLoggedIn ? (
+              <div>
+            <MenuItem component={Link} to="/login" onClick={handleCloseMenu}>
                 Login
               </MenuItem>
               <MenuItem component={Link} to="/signup" onClick={handleCloseMenu}>
                 Sign Up
               </MenuItem>
+              </div>
+              ) : (
+                <MenuItem component={Link} to="/" onClick={handleLogoutClick}>
+                  Logout
+                </MenuItem>
+              )}
             </Menu>
+            </div>
           </Box>
         )}
       </Toolbar>

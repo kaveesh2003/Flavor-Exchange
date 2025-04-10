@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import RecipeData from '../components/RecipeData';
+import { useRecipe } from '../../application/context/RecipeContext'; // Adjust path as needed
 import {
   Box,
   TextField,
@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 
 const EditRecipe = () => {
+  const { getRecipeById, updateRecipe } = useRecipe();
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
@@ -22,42 +23,65 @@ const EditRecipe = () => {
   const [description, setDescription] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
+  const [foodCategory, setFoodCategory] = useState(''); 
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const recipeToEdit = RecipeData.find((r) => r.id === parseInt(id));
-    if (recipeToEdit) {
-      setRecipe(recipeToEdit);
-      setTitle(recipeToEdit.title);
-      setImage(recipeToEdit.image);
-      setCookTime(recipeToEdit.cookTime);
-      setDescription(recipeToEdit.description || '');
-      setIngredients(recipeToEdit.ingredients || '');
-      setSteps(recipeToEdit.steps || '');
-    }
-  }, [id]);
+    const fetchRecipe = async () => {
+      const fetchedRecipe = await getRecipeById(id);
+      if (fetchedRecipe) {
+        setRecipe(fetchedRecipe);
+        setTitle(fetchedRecipe.title);
+        setImage(fetchedRecipe.image);
+        setCookTime(fetchedRecipe.cookTime);
+        setDescription(fetchedRecipe.description || '');
+        setIngredients(fetchedRecipe.ingredients ? fetchedRecipe.ingredients.join(',') : '');
+        setSteps(fetchedRecipe.steps ? fetchedRecipe.steps.join('.') : '');
+        setFoodCategory(fetchedRecipe.foodCategory || '');
+      } else {
+        setError('Recipe not found.');
+      }
+    };
 
-  const handleSaveChanges = () => {
-    if (recipe) {
-      recipe.title = title;
-      recipe.image = image;
-      recipe.cookTime = cookTime;
-      recipe.description = description;
-      recipe.ingredients = ingredients;
-      recipe.steps = steps;
+    fetchRecipe();
+  }, [id, getRecipeById]);
 
+  const handleSaveChanges = async () => {
+    if (!recipe) return;
+
+    const updatedRecipeData = {
+      title: title,
+      image: image,
+      cookTime: cookTime,
+      description: description,
+      ingredients: ingredients.split(',').map((i) => i.trim()),
+      steps: steps.split('.').map((s) => s.trim()).filter(Boolean),
+      foodCategory: foodCategory, // Include foodCategory in update data
+    };
+
+    try {
+      const updatedRecipe = await updateRecipe(id, updatedRecipeData);
+      console.log('Recipe updated:', updatedRecipe);
       setMessage('Recipe updated successfully!');
-
-      //Save to backend/localStorage
+      setError('');
       setTimeout(() => {
         setMessage('');
-        navigate('/my-recipes');
+        navigate(`/recipe/${id}`); 
       }, 1800);
+    } catch (err) {
+      console.error('Error updating recipe:', err);
+      setError('Failed to update recipe.');
+      setMessage('');
     }
   };
 
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
+
   if (!recipe) {
-    return <Typography>Recipe not found.</Typography>;
+    return <Typography>Loading recipe...</Typography>;
   }
 
   return (
@@ -119,7 +143,7 @@ const EditRecipe = () => {
             fullWidth
             multiline
             minRows={4}
-            placeholder="List ingredients here, separated by commas or new lines"
+            placeholder="List ingredients here, separated by commas"
           />
 
           <TextField
@@ -129,7 +153,15 @@ const EditRecipe = () => {
             fullWidth
             multiline
             minRows={4}
-            placeholder="Describe cooking steps here"
+            placeholder="Describe cooking steps here, separated by periods"
+          />
+
+          {/* Edit foodCategory Field */}
+          <TextField
+            label="Food Category (e.g., Main Meals, Snacks)"
+            value={foodCategory}
+            onChange={(e) => setFoodCategory(e.target.value)}
+            fullWidth
           />
 
           <Stack alignItems="center" spacing={2}>
@@ -145,6 +177,11 @@ const EditRecipe = () => {
             {message && (
               <Alert severity="success" sx={{ width: '100%', textAlign: 'center' }}>
                 {message}
+              </Alert>
+            )}
+            {error && (
+              <Alert severity="error" sx={{ width: '100%', textAlign: 'center' }}>
+                {error}
               </Alert>
             )}
           </Stack>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -7,64 +7,94 @@ import {
   Snackbar,
   Alert,
   Stack,
-  Paper
-} from '@mui/material';
+  Paper,
+} from "@mui/material";
+import { useRecipe } from "../../application/context/RecipeContext"; // Adjust path as needed
+import { useNavigate } from "react-router-dom"; // For navigation after adding
 
 const AddRecipe = () => {
+  const { addRecipe } = useRecipe();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    image: '',
-    cookTime: '',
-    ingredients: '',
-    steps: '',
+    title: "",
+    description: "",
+    image: "",
+    cookTime: "",
+    ingredients: "",
+    steps: "",
+    foodCategory: "",
+    rating: 1.0,
+    reviewCount: 1,
+    createdBy: localStorage.getItem("userId"),
   });
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newRecipe = {
       ...form,
-      id: Date.now(),
-      createdBy: 1,
-      rating: 0,
-      reviewCount: 0,
-      ingredients: form.ingredients.split(',').map((i) => i.trim()),
-      steps: form.steps.split('.').map((s) => s.trim()).filter(Boolean),
+      ingredients: form.ingredients.split(",").map((i) => i.trim()),
+      steps: form.steps
+        .split(".")
+        .map((s) => s.trim())
+        .filter(Boolean),
     };
 
-    console.log('Recipe added:', newRecipe);
-    setOpenSnackbar(true);
-    clearForm();
+    try {
+      const addedRecipe = await addRecipe(newRecipe);
+      console.log("Recipe added:", addedRecipe);
+      setSnackbarMessage("Recipe added successfully!");
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
+      clearForm();
+      navigate("/"); // Redirect to the main page after successful addition
+    } catch (error) {
+      console.error("Error adding recipe:", error);
+      setSnackbarMessage("Failed to add recipe.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    }
   };
 
   const clearForm = () => {
     setForm({
-      title: '',
-      description: '',
-      image: '',
-      cookTime: '',
-      ingredients: '',
-      steps: '',
+      title: "",
+      description: "",
+      image: "",
+      cookTime: "",
+      ingredients: "",
+      steps: "",
+      foodCategory: "", // Clear foodCategory as well
+      rating: 1.0,
+      reviewCount: 1,
+      createdBy: localStorage.getItem("userId"),
     });
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="90vh" padding={2}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="90vh"
+      padding={2}
+    >
       <Paper
         elevation={4}
         sx={{
           p: 4,
-          width: '100%',
-          maxWidth: '700px',
+          width: "100%",
+          maxWidth: "700px",
           borderRadius: 4,
-          backgroundColor: '#fefefe',
+          backgroundColor: "#fefefe",
         }}
       >
         <Typography variant="h4" fontWeight="bold" gutterBottom>
@@ -126,6 +156,14 @@ const AddRecipe = () => {
               value={form.steps}
               onChange={handleChange}
             />
+            {/* Add foodCategory Field */}
+            <TextField
+              label="Food Category (e.g., Main Meals, Snacks)"
+              name="foodCategory" // Changed from category to foodCategory
+              fullWidth
+              value={form.foodCategory} // Changed from category to foodCategory
+              onChange={handleChange}
+            />
 
             <Stack direction="row" spacing={2} justifyContent="flex-end" mt={2}>
               <Button variant="outlined" color="secondary" onClick={clearForm}>
@@ -144,10 +182,14 @@ const AddRecipe = () => {
         open={openSnackbar}
         autoHideDuration={3000}
         onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert severity="success" variant="filled" sx={{ width: '100%' }}>
-           Recipe added successfully!
+        <Alert
+          severity={snackbarSeverity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Box>

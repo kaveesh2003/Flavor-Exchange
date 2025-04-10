@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   TextField,
@@ -9,84 +9,90 @@ import {
   Alert,
   Stack,
   CircularProgress,
-  IconButton,
   InputAdornment,
-  LinearProgress
+  IconButton,
+  LinearProgress,
 } from '@mui/material';
-import {
-  Visibility,
-  VisibilityOff
-} from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { useAuth } from '../../application/context/AuthContext'; 
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { register, authLoading, authError } = useAuth();
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-
-  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [emailError, setEmailError] = useState('');
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const calculatePasswordStrength = (password) => {
-    let score = 0;
-    if (password.length >= 6) score += 25;
-    if (/[A-Z]/.test(password)) score += 25;
-    if (/[0-9]/.test(password)) score += 25;
-    if (/[^A-Za-z0-9]/.test(password)) score += 25;
-    return score;
-  };
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-
-    // Email validation
     if (name === 'email') {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setEmailError(emailRegex.test(value) ? '' : 'Enter a valid email');
+      setEmailError('');
     }
-
-    // Password strength + mismatch check
+    if (name === 'password' || name === 'confirmPassword') {
+      setPasswordMismatch(false);
+    }
     if (name === 'password') {
       setPasswordStrength(calculatePasswordStrength(value));
-      setPasswordMismatch(form.confirmPassword && value !== form.confirmPassword);
-    }
-
-    if (name === 'confirmPassword') {
-      setPasswordMismatch(form.password !== value);
     }
   };
 
-  const handleSignup = (e) => {
+  const calculatePasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 6) strength += 25;
+    if (password.match(/[a-z]/)) strength += 25;
+    if (password.match(/[A-Z]/)) strength += 25;
+    if (password.match(/[0-9]/)) strength += 25;
+    return Math.min(strength, 100);
+  };
+
+  const validateEmail = (email) => {
+    if (!email) {
+      return 'Email is required';
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return 'Invalid email format';
+    }
+    return '';
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
+    const emailErrorMessage = validateEmail(form.email);
+    setEmailError(emailErrorMessage);
 
-    if (emailError || passwordMismatch || !form.password || !form.name) return;
+    if (form.password !== form.confirmPassword) {
+      setPasswordMismatch(true);
+      return;
+    }
 
-    setLoading(true);
+    if (emailErrorMessage || passwordMismatch) {
+      return;
+    }
 
-    setTimeout(() => {
-      localStorage.setItem('user', JSON.stringify({
+    try {
+      const success = await register({
         name: form.name,
-        email: form.email
-      }));
-
-      setLoading(false);
-      setSnackbarOpen(true);
-
-      setTimeout(() => {
-        navigate('/login');
-      }, 1000);
-    }, 1500);
+        email: form.email,
+        password: form.password,
+      });
+      if (success) {
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      }
+    } catch (error) {
+      // Error handling is now managed by the NewAuthContext and authError state
+      console.error('Registration failed:', error);
+      // The authError state from the context will likely be populated
+    }
   };
 
   return (
@@ -112,7 +118,7 @@ const Signup = () => {
           </Typography>
         </Box>
 
-        {loading ? (
+        {authLoading ? (
           <Box display="flex" justifyContent="center" py={5}>
             <CircularProgress color="secondary" />
           </Box>
@@ -129,7 +135,7 @@ const Signup = () => {
                 variant="filled"
                 InputLabelProps={{ style: { color: '#bbb' } }}
                 InputProps={{
-                  style: { backgroundColor: '#1e1e1e', color: 'white' }
+                  style: { backgroundColor: '#1e1e1e', color: 'white' },
                 }}
               />
               <TextField
@@ -145,7 +151,7 @@ const Signup = () => {
                 variant="filled"
                 InputLabelProps={{ style: { color: '#bbb' } }}
                 InputProps={{
-                  style: { backgroundColor: '#1e1e1e', color: 'white' }
+                  style: { backgroundColor: '#1e1e1e', color: 'white' },
                 }}
               />
               <TextField
@@ -166,11 +172,10 @@ const Signup = () => {
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
               />
 
-              {/* Password Strength Meter */}
               {form.password && (
                 <Box>
                   <Typography variant="caption" color="gray">
@@ -216,11 +221,11 @@ const Signup = () => {
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
               />
 
-              <Button type="submit" variant="contained" fullWidth color="secondary">
+              <Button type="submit" variant="contained" fullWidth color="secondary" disabled={authLoading}>
                 Sign Up
               </Button>
             </Stack>
@@ -235,9 +240,24 @@ const Signup = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="success" variant="filled" sx={{ width: '100%' }}>
-          Account created! Redirecting to login...
+          ✅ Account created! Redirecting to login...
         </Alert>
       </Snackbar>
+
+      {authError && (
+        <Snackbar
+          open={!!authError}
+          autoHideDuration={3000}
+          onClose={() => {
+            // You might want to add logic to reset the error state here
+          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity="error" variant="filled" sx={{ width: '100%' }}>
+            {authError}
+          </Alert>
+        </Snackbar>
+      )}
     </Box>
   );
 };

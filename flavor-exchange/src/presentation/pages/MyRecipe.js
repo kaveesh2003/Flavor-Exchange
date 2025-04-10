@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import RecipeData from '../components/RecipeData';
 import {
   Box,
   Typography,
@@ -12,24 +11,43 @@ import {
 } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import { Link } from 'react-router-dom';
+import { useRecipe } from '../../application/context/RecipeContext';
 
-const loggedInUserId = 1;
+const loggedInUserId = 1; // Replace with actual user ID from your authentication
 
 const MyRecipe = () => {
+  const { recipes, loading, error, deleteRecipe } = useRecipe();
   const [myRecipes, setMyRecipes] = useState([]);
 
   useEffect(() => {
-    const userRecipes = RecipeData.filter((r) => r.createdBy === loggedInUserId);
-    setMyRecipes(userRecipes);
-  }, []);
+    if (recipes) {
+      const userRecipes = recipes.filter((r) => r.createdBy === loggedInUserId);
+      setMyRecipes(userRecipes);
+    }
+  }, [recipes]);
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this recipe?');
     if (confirmDelete) {
-      const updatedRecipes = myRecipes.filter((r) => r.id !== id);
-      setMyRecipes(updatedRecipes);
+      try {
+        await deleteRecipe(id);
+        // Optionally, you can update the local state immediately
+        // const updatedRecipes = myRecipes.filter((r) => r.id !== id);
+        // setMyRecipes(updatedRecipes);
+      } catch (err) {
+        console.error('Error deleting recipe:', err);
+        // Optionally, show an error message to the user
+      }
     }
   };
+
+  if (loading) {
+    return <Typography>Loading your recipes...</Typography>;
+  }
+
+  if (error) {
+    return <Typography color="error">Error loading recipes: {error.message}</Typography>;
+  }
 
   return (
     <Box padding={4}>
@@ -48,29 +66,14 @@ const MyRecipe = () => {
         ) : (
           myRecipes.map((recipe) => (
             <Grid item xs={12} sm={6} md={4} key={recipe.id}>
-              <Card
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: 345,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  transition: 'transform 0.3s, box-shadow 0.3s',
-                  '&:hover': {
-                    transform: 'translateY(-6px)',
-                    boxShadow: 6,
-                  },
-                }}
-              >
+              <Card>
                 <CardMedia
                   component="img"
                   height="200"
                   image={recipe.image}
                   alt={recipe.title}
-                  sx={{ objectFit: 'cover' }}
                 />
-                <CardContent sx={{ flexGrow: 1 }}>
+                <CardContent>
                   <Typography variant="h6">{recipe.title}</Typography>
                   <Box display="flex" alignItems="center" gap={1} mb={1}>
                     <Rating value={recipe.rating} precision={0.5} readOnly />
@@ -82,7 +85,7 @@ const MyRecipe = () => {
                     Cook Time: {recipe.cookTime}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{ justifyContent: 'center', paddingBottom: 2 }}>
+                <CardActions sx={{ justifyContent: 'center' }}>
                   <Button
                     variant="contained"
                     color="primary"

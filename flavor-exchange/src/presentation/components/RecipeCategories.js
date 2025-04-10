@@ -1,15 +1,7 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
-const categories = [
-  { label: 'All Types', value: 'all' },
-  { label: 'Healthy Meals', value: 'healthy meals' },
-  { label: 'Snacks', value: 'snacks' },
-  { label: 'Main Meals', value: 'main meals' },
-  { label: 'Desserts & Sweets', value: 'desserts & sweets' },
-];
-
-function RecipeCategories({ onCategoryChange, selectedCategory }) {
+function RecipeCategories() {
   return (
     <Box
       sx={{
@@ -20,8 +12,8 @@ function RecipeCategories({ onCategoryChange, selectedCategory }) {
         padding: 3,
       }}
     >
-      <Typography variant="h4" gutterBottom>
-        What to Cook?
+      <Typography variant="h4" gutterBottom >
+        What to Cook ?
       </Typography>
       <Box
         sx={{
@@ -29,18 +21,25 @@ function RecipeCategories({ onCategoryChange, selectedCategory }) {
           flexWrap: 'wrap',
           justifyContent: 'center',
           gap: 1,
+          fontStyle: 'inherit',
+          fontWeight: 700
         }}
       >
-        {categories.map((cat) => (
-          <Button
-            key={cat.value}
-            variant={selectedCategory === cat.value ? 'contained' : 'outlined'}
-            color="primary"
-            onClick={() => onCategoryChange(cat.value)}
-          >
-            {cat.label}
-          </Button>
-        ))}
+        <Button variant="contained" color="primary">
+          All Types
+        </Button>
+        <Button variant="outlined">
+          Healthy Meals
+        </Button>
+        <Button variant="outlined">
+          Snacks
+        </Button>
+        <Button variant="outlined">
+          Main Meals
+        </Button>
+        <Button variant="outlined">
+          Desserts & Sweets
+        </Button>
       </Box>
     </Box>
   );

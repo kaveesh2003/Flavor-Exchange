@@ -1,0 +1,171 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Kaveesha",
+      "password": "Kavi@123",
+      "email": "kaveesha@gmail.com",
+      "token": "mock_token_123"
+    },
+    {
+      "id": "1fd8",
+      "name": "Kaveesha2",
+      "email": "kaveesha2@gmail.com",
+      "password": "Kavi@123",
+      "token": "mock_token_1744265164347"
+    },
+    {
+      "id": "756f",
+      "name": "chathuri",
+      "email": "chathu@gmail.com",
+      "password": "chathu@123",
+      "token": "mock_token_1744303352041"
+    }
+  ],
+  "recipies": [
+    {
+      "title": "Spaghetti Bologneses",
+      "image": "https://cdn.stoneline.de/media/c5/63/4f/1727429313/spaghetti-bolognese.jpeg?ts=1727429313",
+      "cookTime": "30 mins",
+      "description": "A classic Italian pasta dish made with rich tomato meat sauce.",
+      "rating": 4.3,
+      "reviewCount": 30,
+      "ingredients": [
+        "200g spaghetti",
+        "100g minced meat",
+        "1 onion",
+        "2 cloves garlic",
+        "Tomato sauce"
+      ],
+      "steps": [
+        "Boil the spaghetti",
+        "Fry onion and garlic",
+        "Add minced meat and cook",
+        "Mix in tomato sauce",
+        "Serve over spaghetti"
+      ],
+      "foodCategory": "Main Meals",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "title": "Chicken Curry",
+      "description": "A classic Italian pasta dish made with rich tomato meat sauce.",
+      "image": "https://www.theflavorbender.com/wp-content/uploads/2018/02/Sri-Lankan-Chicken-Curry-The-Flavor-Bender-Featured-Image-SQ-2-500x500.jpg",
+      "cookTime": "45 mins",
+      "rating": 4.3,
+      "reviewCount": 30,
+      "ingredients": [
+        "500g chicken",
+        "2 onions",
+        "3 garlic cloves",
+        "Curry powder",
+        "Coconut milk"
+      ],
+      "steps": [
+        "Fry onions and garlic.",
+        "Add chicken and brown.",
+        "Stir in curry powder.",
+        "Add coconut milk and simmer.",
+        "Serve with rice."
+      ],
+      "createdBy": 1,
+      "foodCategory": "Main Meals"
+    },
+    {
+      "id": "3",
+      "title": "Avocado Salad",
+      "description": "A classic Italian pasta dish made with rich tomato meat sauce.",
+      "image": "https://cdn.sunbasket.com/51aff5d6-80bf-421e-8e24-68c54941ab76.jpg",
+      "cookTime": "15 mins",
+      "rating": 4.7,
+      "reviewCount": 25,
+      "ingredients": [
+        "2 avocados",
+        "1 cucumber",
+        "Cherry tomatoes",
+        "Olive oil",
+        "Lemon juice"
+      ],
+      "steps": [
+        "Chop all vegetables.",
+        "Mix in a bowl.",
+        "Drizzle with olive oil and lemon.",
+        "Toss gently and serve."
+      ],
+      "createdBy": 2,
+      "foodCategory": "Desserts & Sweets"
+    },
+    {
+      "id": "4",
+      "title": "Grilled Chicken Salad",
+      "description": "A healthy and refreshing salad with grilled chicken and a variety of vegetables.",
+      "image": "https://www.crunchycreamysweet.com/wp-content/uploads/2018/06/easy-grilled-chicken-salad-1.jpg",
+      "cookTime": "20 mins",
+      "rating": 4.5,
+      "reviewCount": 23,
+      "ingredients": [
+        "2 chicken breasts",
+        "Mixed greens (lettuce, spinach, arugula)",
+        "1 cucumber",
+        "1 bell pepper",
+        "1 avocado",
+        "Olive oil",
+        "Lemon juice",
+        "Salt and pepper"
+      ],
+      "steps": [
+        "Grill the chicken breasts until cooked through and slice into strips.",
+        "Chop the vegetables and avocado.",
+        "Toss the greens and vegetables together in a large bowl.",
+        "Add grilled chicken strips on top.",
+        "Drizzle with olive oil and lemon juice, then season with salt and pepper.",
+        "Toss gently and serve."
+      ],
+      "createdBy": 1,
+      "foodCategory": "Healthy Meals"
+    },
+    {
+      "id": "5",
+      "title": "Caprese Salad",
+      "description": "A classic Italian salad with fresh tomatoes, mozzarella, and basil, drizzled with balsamic vinegar.",
+      "image": "https://www.recipetineats.com/tachyon/2019/01/Caprese-Salad_8.jpg?resize=500%2C500",
+      "cookTime": "10 mins",
+      "rating": 4.5,
+      "reviewCount": 23,
+      "ingredients": [
+        "2 large tomatoes",
+        "200g fresh mozzarella",
+        "Fresh basil leaves",
+        "Olive oil",
+        "Balsamic vinegar",
+        "Salt and pepper"
+      ],
+      "steps": [
+        "Slice the tomatoes and mozzarella into thick rounds.",
+        "Arrange the tomatoes, mozzarella, and basil leaves on a plate.",
+        "Drizzle with olive oil and balsamic vinegar.",
+        "Season with salt and pepper.",
+        "Serve immediately."
+      ],
+      "createdBy": 3,
+      "foodCategory": "Healthy Meals"
+    },
+    {
+      "id": "6",
+      "title": "Hoppers",
+      "description": "test",
+      "image": "https://www.jetwinghotels.com/islandinsider/wp-content/uploads/2017/09/23A8360.jpg",
+      "cookTime": "5",
+      "ingredients": [
+        "Flour",
+        "Salt"
+      ],
+      "steps": [
+        "Cook well"
+      ],
+      "createdBy": 1,
+      "foodCategory": "Main Meals"
+    }
+  ]
+}
